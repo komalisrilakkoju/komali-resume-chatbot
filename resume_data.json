@@ -1,0 +1,40 @@
+{
+    "name": "Komali Sri Lakkoju",
+    "title": "First-Year Student, Applied AI",
+    "education": {
+        "institution": "Vilnius Tech",
+        "program": "Bachelor's in Applied Artificial Intelligence",
+        "year": "First Year (Current)",
+        "details": "Currently studying core concepts in AI, programming fundamentals, and data science methodologies."
+    },
+    "contact": "komalisrilakkoju@gmail.com",
+    "languages": {
+        "C": "Currently learning C programming, focusing on core programming concepts.",
+        "Python": "Prior surface-level study of Python, with specific hands-on experience using the Pandas library.",
+        "Lua": "Learned Lua programming language during high school to create and develop games."
+    },
+    "platforms": [
+        "Amazon AWS (Currently learning and doing projects)",
+        "Microsoft Azure (Currently learning and doing projects)",
+        "Google Cloud Vertex (Currently learning and doing projects)"
+    ],
+    "skills": [
+        "Data Analysis (Pandas)",
+        "Full-Stack Development (Homework Project)",
+        "Game Development (Lua)",
+        "Cloud Computing Fundamentals (AWS, Azure, GCP)",
+        "AI/ML Concepts (Applied AI coursework)"
+    ],
+    "projects": [
+        {
+            "name": "Resume Chatbot with AWS & AI",
+            "description": "Full-stack web application hosted on AWS, demonstrating Python backend development, cloud deployment (Lambda/API Gateway), and prompt engineering using an AI model.",
+            "tech": "Python, Flask, AWS, Anthropic API, HTML/CSS/JS"
+        },
+        {
+            "name": "Data Processing Module",
+            "description": "Used the Python Pandas library to import, clean, and analyze structured datasets, demonstrating fundamental data manipulation and preparation skills.",
+            "tech": "Python, Pandas"
+        }
+    ]
+}

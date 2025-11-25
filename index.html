@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Komali Sri Lakkoju - Interactive Resume</title>
+    <style>
+        /* General Layout */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 900px; 
+            margin: 20px auto; 
+            padding: 20px; 
+            line-height: 1.6;
+        }
+        
+        /* Resume Section Styling */
+        .resume-header {
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #007bff; /* Blue line divider */
+            margin-bottom: 20px;
+        }
+        .resume-header h1 {
+            margin: 0;
+            color: #333;
+            font-size: 2.2em;
+        }
+        .resume-header h2 {
+            margin: 5px 0 0;
+            color: #555;
+            font-size: 1.2em;
+        }
+        .resume-header p {
+            margin: 5px 0 0;
+            color: #007bff;
+        }
+        .section-title {
+            color: #007bff;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            margin-top: 25px;
+            font-size: 1.5em;
+        }
+        .content-list {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+        .content-list li {
+            margin-bottom: 5px;
+        }
+        .project-item strong {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        /* Chatbot Section Styling (Existing) */
+        .chat-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #ccc;
+        }
+        .chat-container { 
+            border: 1px solid #ccc; 
+            height: 300px; 
+            overflow-y: scroll; 
+            padding: 10px; 
+            margin-top: 10px; 
+            background-color: #f9f9f9;
+        }
+        .user-message { 
+            text-align: right; 
+            color: #007bff; 
+            margin: 5px; 
+        }
+        .ai-message { 
+            text-align: left; 
+            color: #28a745; 
+            background-color: #e6ffe6; 
+            padding: 5px; 
+            border-radius: 5px; 
+            margin: 5px; 
+        }
+        #user-input { 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            width: 70%;
+        }
+        button { 
+            padding: 10px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="resume-header">
+        <h1>Komali Sri Lakkoju</h1>
+        <h2>First-Year Student, Applied AI</h2>
+        <p>Email: komalisrilakkoju@gmail.com</p>
+    </div>
+
+    <div class="resume-body">
+        
+        <div class="education">
+            <h3 class="section-title">Education 🎓</h3>
+            <p><strong>Vilnius Tech</strong> | Bachelor's in Applied Artificial Intelligence</p>
+            <p>First Year (Current) | Focus on AI fundamentals, programming, and cloud technologies.</p>
+        </div>
+
+        <div class="skills">
+            <h3 class="section-title">Programming Languages & Skills 💻</h3>
+            <ul class="content-list">
+                <li><strong>C Programming:</strong> Currently learning core programming concepts.</li>
+                <li><strong>Python:</strong> Prior study with hands-on experience in **Pandas** for data manipulation.</li>
+                <li><strong>Lua:</strong> Learned for game development during high school.</li>
+                <li><strong>Cloud Platforms:</strong> Actively learning and doing projects on **Amazon AWS, Microsoft Azure, and Google Cloud Vertex.**</li>
+                <li><strong>Data Analysis:</strong> Strong foundation in using Python libraries (Pandas) for data processing.</li>
+            </ul>
+        </div>
+
+        <div class="projects">
+            <h3 class="section-title">Key Projects ✨</h3>
+            
+            <div class="project-item">
+                <strong>Resume Chatbot with AWS & AI</strong>
+                <p>Full-stack web application hosted on AWS, demonstrating Python backend development, cloud deployment (Lambda/API Gateway), and prompt engineering using an AI model.</p>
+                <p><em>Tech: Python, Flask, AWS, Anthropic API, HTML/CSS/JS</em></p>
+            </div>
+
+            <div class="project-item">
+                <strong>Data Processing Module</strong>
+                <p>Used the Python Pandas library to import, clean, and analyze structured datasets, demonstrating fundamental data manipulation and preparation skills.</p>
+                <p><em>Tech: Python, Pandas</em></p>
+            </div>
+            
+        </div>
+    </div>
+    <div class="chat-section">
+        <h2>Ask the AI Assistant 🤖</h2>
+        <p>Ask about Komali's skills, education, or cloud projects using the information above.</p>
+
+        <div class="chat-container" id="chat-box">
+            <div class="ai-message">Bot: Hello! I am Komali's AI assistant. How can I help you learn more about her background?</div>
+        </div>
+
+        <input type="text" id="user-input" placeholder="Ask a question..." style="width: 70%;">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+        // NOTE: API URL remains the same for local testing. 
+        const API_URL = 'http://127.0.0.1:5000/ask'; 
+        const chatBox = document.getElementById('chat-box');
+
+        async function sendMessage() {
+            const inputElement = document.getElementById('user-input');
+            const question = inputElement.value.trim();
+
+            if (!question) return;
+
+            // 1. Display user's message
+            appendMessage(question, 'user-message');
+            inputElement.value = '';
+
+            // 2. Display 'Typing...' message
+            const typingIndicator = appendMessage('Bot is thinking...', 'ai-message', 'typing-indicator');
+
+            try {
+                // 3. Call the backend API
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question: question }),
+                });
+
+                const data = await response.json();
+                
+                // 4. Update chat with AI response
+                typingIndicator.remove(); // Remove 'Thinking...'
+                appendMessage(data.answer, 'ai-message');
+
+            } catch (error) {
+                console.error('API Error:', error);
+                typingIndicator.remove();
+                appendMessage('Sorry, the backend service is currently unavailable. Check if the Python server is running!', 'ai-message');
+            }
+        }
+
+        function appendMessage(text, className, id = '') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = className;
+            messageDiv.textContent = text;
+            if (id) messageDiv.id = id;
+            
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+            return messageDiv;
+        }
+    </script>
+</body>
+</html>
